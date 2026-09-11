@@ -1,0 +1,68 @@
+// ================================
+// GAME EVOLUTION - SCRIPT
+// ================================
+
+// Tahun pada timeline
+const timelineItems = document.querySelectorAll(".timeline-item");
+
+// Animasi saat elemen masuk layar
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      }
+    });
+  },
+  {
+    threshold: 0.15,
+  }
+);
+
+timelineItems.forEach((item) => {
+  observer.observe(item);
+});
+
+// Tombol kembali ke atas
+const backToTop = document.querySelector("#backToTop");
+
+if (backToTop) {
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) {
+      backToTop.classList.add("active");
+    } else {
+      backToTop.classList.remove("active");
+    }
+  });
+
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+}
+
+// Tahun otomatis di footer
+const yearElement = document.querySelector("#currentYear");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
+
+// Menu mobile
+const menuButton = document.querySelector(".menu-toggle");
+const navigation = document.querySelector(".nav-links");
+
+if (menuButton && navigation) {
+  menuButton.addEventListener("click", () => {
+    navigation.classList.toggle("open");
+  });
+}
+
+// Tutup menu setelah memilih menu
+document.querySelectorAll(".nav-links a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navigation?.classList.remove("open");
+  });
+});
